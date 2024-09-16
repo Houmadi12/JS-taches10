@@ -2,6 +2,7 @@
 const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
+const result = document.querySelector("#result")
 
 // ECOUTEURS
 todoButton.addEventListener("click", addTodo);
@@ -16,7 +17,13 @@ function addTodo(event) {
         todos = JSON.parse(localStorage.getItem("todos"))
     }
 
-    todos.unshift({ valeur: todoInput.value, color: "white" });
+    if(todoInput.value !== ""){
+        todos.unshift({ valeur: todoInput.value, color: "white" });
+    }else {
+        event.preventDefault()
+        result.innerText = "Veuillez saisir le nom du tâche"
+    }
+    
 
     localStorage.setItem("todos", JSON.stringify(todos));
 }
