@@ -6,7 +6,7 @@ const result = document.querySelector("#result")
 
 // ECOUTEURS
 todoButton.addEventListener("click", addTodo);
-todoList.addEventListener("click", deleteCheck);
+todoList.addEventListener("click", changerEtat);
 
 // FONCTIONS
 function addTodo(event) {
@@ -17,7 +17,9 @@ function addTodo(event) {
         todos = JSON.parse(localStorage.getItem("todos"))
     }
 
-    if(todoInput.value !== ""){
+    let input = todoInput.value;
+
+    if(input.replace(/\s+/, '').length){
         todos.unshift({ valeur: todoInput.value, color: "white" });
     }else {
         event.preventDefault()
@@ -28,8 +30,8 @@ function addTodo(event) {
     localStorage.setItem("todos", JSON.stringify(todos));
 }
 
-// Fonction pour suprimer un todo list
-function deleteCheck(e) {
+// Fonction pour changer l'etat de todo list
+function changerEtat(e) {
     const item = e.target;
     const parent = item.parentNode;
     let nomColor = JSON.parse(localStorage.getItem("todos"))
