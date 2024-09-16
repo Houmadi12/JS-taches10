@@ -19,7 +19,7 @@ function addTodo(event) {
 
     let input = todoInput.value;
 
-    if(input.replace(/\s+/, '').length){
+    if(input.trim() !== ""){
         todos.unshift({ valeur: todoInput.value, color: "white" });
     }else {
         event.preventDefault()
