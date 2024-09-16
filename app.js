@@ -4,49 +4,21 @@ const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
 
 // ECOUTEURS
-document.addEventListener("DOMContentLoaded", getTodos);
 todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteCheck);
 
 // FONCTIONS
 function addTodo(event) {
-    event.preventDefault();
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"))
+    }
 
-    // Creer Todo DIV
-    const todoDiv = document.createElement("div");
-    todoDiv.classList.add("todo");
-    todoDiv.style.background = "white";
-    // Créer le Li
-    const newTodo = document.createElement("li");
-    newTodo.innerText = todoInput.value;
-    newTodo.classList.add("todo-item");
-    todoDiv.appendChild(newTodo);
+    todos.unshift({ valeur: todoInput.value, color: "white" });
 
-    // Ajouter la todo au localStorage
-    saveLocalTodos(todoInput.value);
-
-    // Button To do
-    const todoBTN = document.createElement("button");
-    todoBTN.innerHTML = 'TO DO';
-    todoBTN.classList.add("todo-btn");
-    todoDiv.appendChild(todoBTN);
-
-    // Button Doing
-    const doingButton = document.createElement("button");
-    doingButton.innerHTML = 'DOING';
-    doingButton.classList.add("doing-btn");
-    todoDiv.appendChild(doingButton);
-
-    // Button Done
-    const doneButton = document.createElement("button");
-    doneButton.innerHTML = 'DONE';
-    doneButton.classList.add("done-btn");
-    todoDiv.appendChild(doneButton);
-
-    // Ajouter notre Todo A TODO-LIST
-    todoList.appendChild(todoDiv);
-
-    todoInput.value = ""
+    localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 // Fonction pour suprimer un todo list
@@ -66,14 +38,14 @@ function deleteCheck(e) {
         const previousSibling = item.previousElementSibling;
         parent.style.background = "#dc3545";
         nomColor.forEach((element) => {
-            if(element.valeur === previousSibling.textContent){
+            if (element.valeur === previousSibling.textContent) {
                 element.color = "#dc3545";
             }
 
             console.log(element);
         })
 
-        localStorage.setItem("todos",JSON.stringify(nomColor));
+        localStorage.setItem("todos", JSON.stringify(nomColor));
     }
 
     // DOING
@@ -89,14 +61,14 @@ function deleteCheck(e) {
 
         // console.log(sibling.textContent);
         nomColor.forEach((element) => {
-            if(element.valeur === sibling.textContent){
+            if (element.valeur === sibling.textContent) {
                 element.color = "#ffc107";
             }
 
             console.log(element);
         })
 
-        localStorage.setItem("todos",JSON.stringify(nomColor));
+        localStorage.setItem("todos", JSON.stringify(nomColor));
     }
 
     // DONNE
@@ -113,40 +85,25 @@ function deleteCheck(e) {
 
         // console.log(sibling.textContent);
         nomColor.forEach((element) => {
-            if(element.valeur === sibling.textContent){
+            if (element.valeur === sibling.textContent) {
                 element.color = "#198754";
             }
 
             console.log(element);
         })
 
-        localStorage.setItem("todos",JSON.stringify(nomColor));
+        localStorage.setItem("todos", JSON.stringify(nomColor));
     }
 }
 
+let todos;
+todos = JSON.parse(localStorage.getItem("todos"))
 
-// Fonction pour stocker les todos dans localStorage
-function saveLocalTodos(todo) {
-    // Checker si il y'a des items existant
-    let todos;
-    if (localStorage.getItem("todos") === null) {
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem("todos"))
-    }
-    todos.push({ valeur: todo, color: "white" });
-    localStorage.setItem("todos", JSON.stringify(todos));
-}
+getTodos(todos);
+
 
 // Fonction pour réccuperer et afficher les donné localStorage
-function getTodos() {
-    let todos;
-    if (localStorage.getItem("todos") === null) {
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem("todos"))
-    }
-
+function getTodos(todos) {
 
     todos.forEach(function (todo) {
         // Creer Todo DIV
